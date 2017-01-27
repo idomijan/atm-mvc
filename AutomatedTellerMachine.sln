@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTellerMachine", "AutomatedTellerMachine\AutomatedTellerMachine.csproj", "{FAB6D419-AD49-4057-B2A1-EDE6EE328590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTellerMachine.Tests", "AutomatedTellerMachine.Tests\AutomatedTellerMachine.Tests.csproj", "{D08FE38B-2F73-4B44-AAD8-061C49567676}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAB6D419-AD49-4057-B2A1-EDE6EE328590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB6D419-AD49-4057-B2A1-EDE6EE328590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB6D419-AD49-4057-B2A1-EDE6EE328590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB6D419-AD49-4057-B2A1-EDE6EE328590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D08FE38B-2F73-4B44-AAD8-061C49567676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08FE38B-2F73-4B44-AAD8-061C49567676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08FE38B-2F73-4B44-AAD8-061C49567676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08FE38B-2F73-4B44-AAD8-061C49567676}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
