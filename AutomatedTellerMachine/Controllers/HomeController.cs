@@ -1,20 +1,32 @@
-﻿using System;
+﻿using AutomatedTellerMachine.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Mvc; // za GetUserId()
 
 namespace AutomatedTellerMachine.Controllers
 {
     public class HomeController : Controller
     {
-        
+        private IApplicationDbContext db = new IApplicationDbContext();
+        [Authorize]
         public ActionResult Index()
-        {            
+        {
+            var userId = User.Identity.GetUserId();
+            var chekingAccountId = db.ChekingAccounts.Where(c => c.ApplicationUserId == userId).First().Id;
+            ViewBag.ChekingAccountId = chekingAccountId;
+            //nije dodano u identity objekt, pa ga dohvacamo preko owin manager
+            var manager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //dodajemo ga u viewbag da ispise u index.cshtml
+            var user = manager.FindById(userId);
+            ViewBag.Pin = user.Pin;
             return View();
         }
 
-        [ActionName("about-this-atm")]
+        //[ActionName("about-this-atm")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -28,12 +40,13 @@ namespace AutomatedTellerMachine.Controllers
             
             return View();
         }
+
         [HttpPost]
         public ActionResult Contact(string message)
         {
             ViewBag.TheMessage = "Thanks. We got message";
 
-            return View();
+            return PartialView("_ContactThanks");
         }
 
         public ActionResult Serial(string letterCase)

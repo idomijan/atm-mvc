@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AutomatedTellerMachine.Models;
 using System.Data.Entity;
+using AutomatedTellerMachine.Services;
 
 namespace AutomatedTellerMachine.Controllers
 {
@@ -156,19 +157,12 @@ namespace AutomatedTellerMachine.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var db = new ApplicationDbContext();
-                    var accountNumber =  (123456 + db.ChekingAccounts.Count()).ToString().PadLeft(10,'0');
-                    var chekingAccount = new ChekingAccount
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        AccountNumber = accountNumber,
-                        Balance = 0,
-                        ApplicationUserId = user.Id
-                    };
-                    db.ChekingAccounts.Add(chekingAccount);
-                    db.SaveChanges();
-
+                    //built-in claims
+                    UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.FirstName));
+                    //instanca chek..acc..service proslijedi dbContext g
+                    var service = new ChekingAccountService(HttpContext.GetOwinContext().Get<IApplicationDbContext>());
+                    service.CreateChekingAccount(model.FirstName, model.LastName, user.Id, 0);
+                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -388,6 +382,9 @@ namespace AutomatedTellerMachine.Controllers
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
+                        
+                        var service = new ChekingAccountService(HttpContext.GetOwinContext().Get<IApplicationDbContext>());
+                        service.CreateChekingAccount("Facebook", "User", user.Id, 0);
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
